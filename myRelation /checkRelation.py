@@ -180,7 +180,6 @@ def check_is_transitions_correct(net):
 
 
 def check_is_relation_an_alpha_morphism(net1, net2, mapping):
-    # check_is_transitions_correct(net1, net2)
     if check_is_transitions_correct(net1) and check_is_transitions_correct(net2):
         print("Transitions are okay")
     if not mapping.total_mapping_N2():
@@ -191,21 +190,10 @@ def check_is_relation_an_alpha_morphism(net1, net2, mapping):
         print(" have 0 or more than 1 outgoing arcs : Domain does not have enough outgoing arcs")
     else:
         print("mapping for domain is total")
-    #     здесь начинается выполнения условий 3,6,7,8,9
-    #     for i in net2.transitions.values():
-    #         for j in mapping.get_mapping(i):
-    #  сейчас мы просмотрим все условия для случая, когда объект, в которой проиходит отображение является местом
     for i in net2.places.values():
-        # print(i.get_name(), " ", j.get_name())
         if len(mapping.get_mapping(i)) > 1:
-            # здесь отображается объект вида "подсеть"
             print(check_subnet_to_place(mapping.get_mapping(i), i, mapping))
-            # print("it is a subnet", mapping.is_mapped_acycle(i))
         elif mapping.get_mapping(i)[0].get_type() == "place":
-            # print(mapping.get_mapping(i)[0].get_name())
             print(check_place_to_place(mapping.get_mapping(i)[0], i, mapping))
-            # print("it is a place")
         elif mapping.get_mapping(i)[0].get_type() == "transition":
-            # print(mapping.get_mapping(i)[0].get_name())
             print(check_transition_to_place(mapping.get_mapping(i)[0], i, mapping))
-            # print("it is a transition")
