@@ -1,7 +1,6 @@
 
-from PetriArc import PetriArc
-from PetriMapping import PetriMapping
-from PetriNet import PetriNet
+from myRelation.PetriArc import PetriArc
+
 from PetriNode import PetriNode
 
 class PetriNet:
