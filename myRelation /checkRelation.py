@@ -5,6 +5,18 @@ from PetriNode import PetriNode
 
 
 def check_subnet_to_place(nodes1, node2, mapping):
+    """Проверяет соответствие между подсетью и местом в сетях Петри.
+
+    Аргументы:
+    - nodes1: list - список вершин, образующих подсеть
+    - node2: PetriNode - место
+    - mapping: Mapping - отображение между сетями Петри
+
+    Проверяет соответствие входящих и исходящих дуг между вершинами подсети (`nodes1`) и местом (`node2`),
+    с использованием отображения `mapping`. Также проверяет, является ли отображение `mapping` ацикличным для `node2`.
+
+    Возвращает True, если соответствие удовлетворяет условиям, и False в противном случае.
+    """
     if len(nodes1) > 1:
         list_of_first_vertexes_n1 = []  # массив вершин, которые образуют preset для подсети
         list_of_last_vertexes_n1 = []  # массив вершин, которые образуют postset для подсети
@@ -61,6 +73,18 @@ def check_transition_to_place(node1, node2, mapping):
 
 
 def check_place_to_place(node1, node2, mapping):
+    """Проверяет отображение между двумя местами в сетях Петри.
+
+    Аргументы:
+    - node1: PetriNode - первое место
+    - node2: PetriNode - второе место
+    - mapping: Mapping - отображение между сетями Петри
+
+    Проверяет соответствие предшедствующих и последующих множеств первого места (`node1`) и второго места (`node2`),
+    с использованием отображения `mapping`. Если узлы не являются переходами, выводит сообщение об ошибке.
+
+    Возвращает True, если соответствие удовлетворяет условиям, и False в противном случае.
+    """
     if node1.type == "place":
         list_of_in_arcs_for_node1 = node1.get_in_arcs()
         list_of_out_arcs_for_node1 = node1.get_out_arcs()
@@ -115,6 +139,18 @@ def check_place_to_place(node1, node2, mapping):
 
 
 def check_transition_to_transition(node1, node2, mapping):
+    """Проверяет отображение между двумя переходами в сетях Петри.
+
+    Аргументы:
+    - node1: PetriNode - первый переход
+    - node2: PetriNode - второй переход
+    - mapping: Mapping - отображение между сетями Петри
+
+    Проверяет соответствие предшедствующих и последующих множеств первого перехода (`node1`) и второго перехода (`node2`),
+    с использованием отображения `mapping`. Если узлы не являются переходами, выводит сообщение об ошибке.
+
+    Возвращает True, если соответствие удовлетворяет условиям, и False в противном случае.
+    """
     if node1.type == "transition":
         list_of_in_arcs_for_node1 = node1.get_in_arcs()
         list_of_out_arcs_for_node1 = node1.get_out_arcs()
@@ -169,6 +205,17 @@ def check_transition_to_transition(node1, node2, mapping):
 
 
 def check_is_transitions_correct(net):
+     """Проверяет корректность переходов в сети Петри.
+
+    Аргументы:
+    - net: PetriNet - сеть Петри
+
+    Проверяет каждый переход в сети Петри на соответствие условию, что количество входящих дуг
+    равно количеству исходящих дуг. Если для какого-либо перехода это условие не выполняется,
+    выводит сообщение об ошибке, указывающее на переход и количество входящих и исходящих дуг.
+
+    Возвращает True, если все переходы удовлетворяют условию, и False в противном случае.
+    """
     list_of_transitions = net.transitions
     for i in list_of_transitions.values():
         if len(i.get_in_arcs()) != len(i.get_out_arcs()):
@@ -180,6 +227,21 @@ def check_is_transitions_correct(net):
 
 
 def check_is_relation_an_alpha_morphism(net1, net2, mapping):
+     """Проверяет, является ли данное отображение alpha-морфизмом между сетями Петри.
+
+    Аргументы:
+    - net1: PetriNet - первая сеть Петри
+    - net2: PetriNet - вторая сеть Петри
+    - mapping: Mapping - отображение между сетями Петри
+
+    Выводит сообщения о проверке корректности переходов и полноте отображения,
+    а также проверяет соответствие каждого узла из второй сети его отображению
+    и вызывает соответствующую функцию проверки для каждого типа узла.
+
+    Печатает сообщения об ошибке или успешном соответствии для каждого узла второй сети.
+
+    Возвращает None.
+    """
     if check_is_transitions_correct(net1) and check_is_transitions_correct(net2):
         print("Transitions are okay")
     if not mapping.total_mapping_N2():
