@@ -57,6 +57,20 @@ def check_subnet_to_place(nodes1, node2, mapping):
 
 
 def check_transition_to_place(node1, node2, mapping):
+    """Проверяет соответствие между переходом и местом в сети Петри.
+
+    Аргументы:
+    - node1: PetriNode - переход
+    - node2: PetriNode - место
+    - mapping: Mapping - отображение между сетями Петри
+
+    Проверяет соответствие между переходом (`node1`) и местом (`node2`) в сети Петри
+    с использованием отображения `mapping`. Если `node1` является переходом,
+    производит проверку связи между предшедствующим и последующим множествами и местом,
+    используя отображение `mapping`.
+
+    Возвращает True, если соответствие удовлетворяет условиям, и False в противном случае.
+    """
     if node1.type == "transition":
         list_of_in_arcs = node1.get_in_arcs()
         list_of_out_arcs = node1.get_out_arcs()
